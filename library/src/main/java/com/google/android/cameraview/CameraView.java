@@ -36,6 +36,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Set;
 
+import static java.lang.System.in;
+
 public class CameraView extends FrameLayout {
 
     /** The camera device faces the opposite direction as the device's screen. */
@@ -489,7 +491,12 @@ public class CameraView extends FrameLayout {
         }
 
         public static final Parcelable.Creator<SavedState> CREATOR
-                = ParcelableCompat.newCreator(new ParcelableCompatCreatorCallbacks<SavedState>() {
+                = new Parcelable.ClassLoaderCreator<SavedState>() {
+
+            @Override
+            public SavedState createFromParcel(Parcel in){
+                return new SavedState(in, null);
+            }
 
             @Override
             public SavedState createFromParcel(Parcel in, ClassLoader loader) {
@@ -501,8 +508,7 @@ public class CameraView extends FrameLayout {
                 return new SavedState[size];
             }
 
-        });
-
+        };
     }
 
     /**
